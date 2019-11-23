@@ -1,0 +1,27 @@
+version: v1beta4
+images:
+  default:
+    image: dscr.io/${DEVSPACE_USERNAME}/client
+deployments:
+- name: client
+  helm:
+    componentChart: true
+    values:
+      containers:
+      - image: dscr.io/${DEVSPACE_USERNAME}/client
+      service:
+        ports:
+        - port: 8080
+dev:
+  ports:
+  - imageName: default
+    forward:
+    - port: 8080
+  open:
+  - url: http://localhost:8080
+  sync:
+  - imageName: default
+    excludePaths:
+    - Dockerfile
+    - node_modules/
+    - devspace.yaml
